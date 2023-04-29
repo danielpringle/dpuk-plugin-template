@@ -61,7 +61,7 @@ ex. Dominique Pizzie
 ex. [@DomPizzie](https://twitter.com/dompizzie)
 
 ## Version History
-
+[a relative link](CHANGELOG.md)
 * 0.2
     * Various bug fixes and optimizations
     * See [commit change]() or See [release history]()
