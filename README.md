@@ -28,6 +28,7 @@ Plugin boilerplate from WordPress
 </details>
 
 ## About the project
+* Add a detailed description of the project here
 ## Getting Started
 ### Prerequisites
 * Describe any prerequisites, libraries, OS version, etc., needed before installing program.
