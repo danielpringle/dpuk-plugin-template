@@ -1,0 +1,24 @@
+{
+	"name": "dpuk-plugin-template",
+	"version": "1.0.0",
+	"description": "Plugin Template",
+	"author": "Daniel Pringle",
+	"license": "GPL-2.0-or-later",
+	"keywords": [
+		"WordPress"
+	],
+	"main": "build/index.js",
+	"devDependencies": {
+		"husky": "^8.0.3",
+		"lint-staged": "^13.2.3"
+	},
+    "husky": {
+        "hooks": {
+            "pre-commit": "lint-staged"
+        }
+      },
+    "lint-staged": {
+        "*.php": "composer php-lint"
+    },
+	"scripts": {}
+}

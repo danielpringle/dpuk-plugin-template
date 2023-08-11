@@ -52,6 +52,20 @@ Register class in includes\autoloader.php.
 * Run `npm run build` to compile the block.
 * Run `gulp comileSass` to compile the css.
 
+### Folder structure
+├── build                   # Block Compiled files
+├── docs                    # Documentation files
+├── assets                  # Asset Files
+  |── scss
+  |── js
+  |── css
+  |── images
+├── includes                # Main app files   
+  ├── classes                   
+├── Languages
+├── LICENSE
+└── README.md
+
 ### Usage
 * Step-by-step bullets
 ```

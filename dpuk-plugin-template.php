@@ -165,5 +165,9 @@ if ( ! Classes\php()->version() ) {
 require_once DPT_PATH . 'init.php';
 
 
+function test(){
+	$test = "test";
+}
+
 
 
