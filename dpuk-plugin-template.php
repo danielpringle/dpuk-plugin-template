@@ -166,7 +166,7 @@ require_once DPT_PATH . 'init.php';
 
 
 function test(){
-	$test = "test";
+	$test = "test2";
 }
 
 

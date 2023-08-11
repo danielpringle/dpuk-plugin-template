@@ -20,5 +20,7 @@
     "lint-staged": {
         "*.php": "composer php-lint"
     },
-	"scripts": {}
+	"scripts": {
+        "prepare": "husky install"
+    }
 }
