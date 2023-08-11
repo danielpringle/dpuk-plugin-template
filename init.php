@@ -152,3 +152,8 @@ function admin_init() {
 
 // }
 // add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_plugin_scripts_styles');
+
+
+function test(){
+	$test = "test";
+}
