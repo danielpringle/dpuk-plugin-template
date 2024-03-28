@@ -62,12 +62,68 @@ function init() {
 	require_once DPT_PATH . 'includes/autoloader.php';
 
 	// Settings and core methods.
-	new Classes\EnqueueAssets;
+	new Classes\EnqueueAssets();
+	
 
-	/** EXAMPLES - delete **/
+	/** EXAMPLES - delete */
 	// new Classes\Dog;
 	// $run_cat = new Classes\Cat;
 	// $run_cat->hook_into_wordpress();
+
+
+
+	$languages = array();
+  
+	$languages['Python'] = array(
+		"first_release" => "1991", 
+		"latest_release" => "3.8.0", 
+		"designed_by" => "Guido van Rossum",
+		"description" => array(
+			"extension" => ".py", 
+			"typing_discipline" => "Duck, dynamic, gradual",
+			"license" => "Python Software Foundation License"
+		)
+	);
+	  
+	$languages['PHP'] = array(
+		"first_release" => "1995", 
+		"latest_release" => "7.3.11", 
+		"designed_by" => "Rasmus Lerdorf",
+		"description" => array(
+			"extension" => ".php", 
+			"typing_discipline" => "Dynamic, weak",
+			"license" => "PHP License (most of Zend engine
+				 under Zend Engine License)"
+		)
+	);
+
+	// foreach ( $languages as $language ) {
+	// 	new Classes\Language($language);
+	// }
+
+
+
+
+	// $allZones = array (
+	// 	'header'    =>  array(
+	// 		'div1',
+	// 		'div2'
+	// 	),
+	// 	'content'   =>  array(
+	// 		'div3', 
+	// 		'div4'
+	// 		)        
+	// );
+
+
+	// foreach($allZones as $newZoneId => $newZoneSubs) {
+	// 	$newZone = new Classes\Zone($newZoneId, $newZoneSubs);
+	// 	echo $newZone, "\n";
+	// }
+
+
+
+
 	
 }
 
@@ -81,79 +137,171 @@ function init() {
  * @global $pagenow Get the current admin screen.
  * @return void
  */
+
 function admin_init() {
 
-	
-	/** Add admin menu settings via class **/
-	require_once DPT_PATH . 'admin/classes/class-admin-settings.php';
-	require_once DPT_PATH . 'admin/classes/class-admin-menu.php';
-	require_once DPT_PATH . 'admin/classes/class-admin-menu-tab.php';
-	require_once DPT_PATH . 'admin/classes/class-admin-sub-menu.php';
-
-
-
-	$customWPMenu = new Admin\AdminMenu( array(
-		'slug' => 'wpmenu',
-		'title' => 'WP Menu',
-		'desc' => 'Settings for theme custom WordPress Menu',
-		'icon' => 'dashicons-welcome-widgets-menus',
-		'position' => 99,
-	));
-	
-	$customWPMenu->add_field(array(
-	'name' => 'text',
-	'title' => 'Text Input',
-	'desc' => 'Input Description' ));
-
-	$customWPMenu->add_field(array(
-		'name' => 'dpuk',
-		'title' => 'DPUK Text Input',
-		'desc' => 'Input Description for DPUK' ));
-	
-	$customWPMenu->add_field(array(
-	'name' => 'checkbox',
-	'title' => 'Checkbox Example',
-	'desc' => 'Check it to wake it',
-	'type' => 'checkbox'));
-
-
-/** Add admin menu settings procedual **/
 	// require_once plugin_dir_path( __FILE__ ) . 'admin/admin-settings/admin-menu.php';
 	// require_once plugin_dir_path( __FILE__ ) . 'admin/admin-settings/settings-page.php';
 	// require_once plugin_dir_path( __FILE__ ) . 'admin/admin-settings/settings-register.php';
 	// require_once plugin_dir_path( __FILE__ ) . 'admin/admin-settings/settings-callbacks.php';
 
+	$admin_pages = array (
+
+		"top_level" => array(
+			'menu_type' => 'top',
+			'page_title' => 'page_title',
+			'menu_title' => 'dan title',
+			'menu_slug' => 'menu_slug',
+			'capability' => 'manage_options',
+			'icon_url' => 'dashicons-welcome-widgets-menus',
+			'position' => null,
+		),
+
+		"submenu" => array(
+			'menu_type' => 'submenu',
+			'parent_slug' => 'menu_slug',
+			'page_title' => 'Sub Menu Title',
+			'menu_title' => 'Sub title',
+			'capability' => 'manage_options',
+			'menu_slug' => 'sub_menu_slug',
+
+		),
+
+	);
+
+	foreach ( $admin_pages as $admin_page ) {
+
+		if($admin_page['menu_type'] == 'top'){
+			new Admin\MyPlugin_AddAdminPages( 
+				$admin_page['page_title'], 
+				$admin_page['menu_title'],
+				$admin_page['menu_slug'], 
+				$admin_page['capability'],
+				$admin_page['icon_url'], 
+				$admin_page['position'], 
+			);
+		} else if($admin_page['menu_type'] == 'submenu'){
+			new Admin\MyPlugin_AddAdminSubPages( 
+				$admin_page['parent_slug'], 
+				$admin_page['page_title'], 
+				$admin_page['menu_title'],
+				$admin_page['menu_slug'], 
+				$admin_page['capability'],
+			);
+		}
+
+	}
+
+	new Admin\ExtendSub( 
+		'menu_slug', 
+		'My Sub', 
+		'My Sub',
+		'my_sub', 
+		'manage_options',
+	);
+
+	/**
+	 * Add Admin sections
+	 */
+	$admin_sections = array (
+		"section-one" => array(
+			'id' => 'sectionid',
+			'title' => 'section title',
+			'page' => 'menu_slug',
+		),
+	);
+	foreach ( $admin_sections as $admin_section ) {
+
+			new Admin\Admin_Add_Sections( 
+				$admin_section['id'], 
+				$admin_section['title'],
+				$admin_section['page'], 
+			);
+	}
+
+
+
+    /**
+	 * Add admin elements
+	 * @example examples/example-elements.php
+	 */
+	$admin_elements = array (
+		"cb1" => array(
+			'element_type' => 'textfield',
+			'id' => 'elementid',
+			'title' => 'a title',
+			'page' => 'menu_slug',
+			'section' => 'sectionid',
+			'label' => 'a label',
+			"items" => array(),
+		),
+
+		"cb2" => array(
+			'element_type' => 'checkbox',
+			'id' => 'elementid2',
+			'title' => 'a checkbox',
+			'page' => 'menu_slug',
+			'section' => 'sectionid',
+			'label' => null,
+			"items" => array(),
+		),
+
+		"cb3" => array(
+			'element_type' => 'radios',
+			'id' => 'elementid3',
+			'title' => 'radios',
+			'page' => 'menu_slug',
+			'section' => 'sectionid',
+			'label' => null,
+			"items" => array(
+				"on" => "On", 
+				"off" => "Off",
+			),
+		),
+
+		"cb4" => array(
+			'element_type' => 'select',
+			'id' => 'elementid4',
+			'title' => 'selects',
+			'page' => 'menu_slug',
+			'section' => 'sectionid',
+			'label' => null,
+			"items" => array(
+				'default'   => 'Default',
+				'light'     => 'Light',
+				'blue'      => 'Blue',
+				'coffee'    => 'Coffee',
+				'ectoplasm' => 'Ectoplasm',
+				'midnight'  => 'Midnight',
+				'ocean'     => 'Ocean',
+				'sunrise'   => 'Sunrise',
+			),
+		),
+	);
+	foreach ( $admin_elements as $admin_element ) {
+
+		new Admin\Admin_Add_Elements( 
+			$admin_element['element_type'],
+			$admin_element['id'], 
+			$admin_element['title'],
+			$admin_element['page'], 
+			$admin_element['section'],
+			$admin_element['label'], 
+			$admin_element['items'], 
+		);
+	}
+
+
+
 
 }
 
-/**
- * 
- */
-// function enqueue_plugin_scripts_styles() {
-
-// 	// Instantiate the Assets class.
-// 	$asset_versioning = new Classes\AssetVersioning;
-	
-// 	wp_enqueue_script(
-// 		'dpuk-plugin-template-script', 
-// 		DPT_URL . 'assets/js/dpuk-plugin-template' . $asset_versioning->suffix() . '.js',
-// 		[ 'jquery' ],
-// 		$asset_versioning->version_control(),
-// 		true 
-// 	);
-
-// 	wp_enqueue_style( 
-// 		'dpuk-plugin-template-styles',
-// 		DPT_URL . 'assets/css/dpuk-plugin-template' . $asset_versioning->suffix() . '.css',
-// 		array(),
-// 		$asset_versioning->version_control(),
-// 		false 
-// 		);
-
-// }
-// add_action( 'wp_enqueue_scripts', __NAMESPACE__ . '\enqueue_plugin_scripts_styles');
 
 
-function test(){
-	$test = "test";
-}
+
+
+
+
+
+// $options = get_option(menu_slug_option);
+// var_dump($options["elementid3"]);

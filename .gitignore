@@ -48,6 +48,8 @@ Thumbs.db
 *.mov
 *.wmv
 
+.env
+.phpcs.cache
 
 /vendor/
 

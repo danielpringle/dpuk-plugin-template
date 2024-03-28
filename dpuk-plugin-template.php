@@ -4,9 +4,9 @@
  *
  * Some description here
  *
- * @package 
+ * @package dpuk
  * @version 1.0.1
- * @link    
+ * @link
  *
  * Plugin Name:  DPUK Plugin Template
  * Version: 1.0.0
@@ -20,6 +20,7 @@
  * Requires at least: 3.8
  * Tested up to: 5.7.1
  */
+
 namespace DPUK_Plugin_Template;
 
 // Alias namespaces.
@@ -27,34 +28,50 @@ use DPUK_Plugin_Template\Classes\Activate as Activate;
 
 // Restrict direct access.
 if ( ! defined( 'ABSPATH' ) ) {
-	die;
+	die; // Exit if accessed directly.
 }
-
-/**
- * License & Warranty
- *
- */
-
 /**
  * Constant: Plugin Name and Version
  *
  * @since 1.0.0
- * @var   string The name of this plugin file.
- * @var   string The version of this plugin file.
+ * @param array $params Array containing the necessary params.
+ *    $params = [
+ *      'name'     => (string) Plugin name.
+ *      'version'  => (string) Plugin version.
+ *      'text'     => (string) Text domain.
+ *      'requires' => (string) php version.
+ *    ]
  */
-$plugin_data          = get_file_data(
+$plugin_data = get_file_data(
 	__FILE__,
 	array(
-		'name'    => 'Plugin Name',
-		'version' => 'Version',
-		'text'    => 'Text Domain',
-		'requires' =>'Requires PHP',
+		'name'     => 'Plugin Name',
+		'version'  => 'Version',
+		'text'     => 'Text Domain',
+		'requires' => 'Requires PHP',
 	)
 );
-define( 'DPT_VERSION',  $plugin_data['version'] );
-define( 'DPT_NAME',  $plugin_data['name'] );
-define( 'DPT_REQUIRES_PHP',  $plugin_data['name'] );
-
+/**
+ * Constant: Plugin Version
+ *
+ * @since 1.0.0
+ * @var   string The plugin version.
+ */
+define( 'DPT_VERSION', $plugin_data['version'] );
+/**
+ * Constant: Plugin Name
+ *
+ * @since 1.0.0
+ * @var   string The plugin name.
+ */
+define( 'DPT_NAME', $plugin_data['name'] );
+/**
+ * Constant: PHP Version
+ *
+ * @since 1.0.0
+ * @var   string The php version
+ */
+define( 'DPT_REQUIRES_PHP', $plugin_data['name'] );
 /**
  * Constant: Plugin basename
  *
@@ -62,13 +79,10 @@ define( 'DPT_REQUIRES_PHP',  $plugin_data['name'] );
  * @var   string The basename of this plugin file.
  */
 define( 'DPT_BASENAME', plugin_basename( __FILE__ ) );
-
 // Get the PHP version class.
 require_once plugin_dir_path( __FILE__ ) . 'includes/classes/class-php-version.php';
-
 // Get plugin configuration file.
 require plugin_dir_path( __FILE__ ) . 'config.php';
-
 /**
  * Activation & deactivation
  *
@@ -78,11 +92,9 @@ require plugin_dir_path( __FILE__ ) . 'config.php';
  */
 
 // Get the plugin activation class.
-include_once DPT_PATH . 'activate/classes/class-activate.php';
-
+require_once DPT_PATH . 'activate/classes/class-activate.php';
 // Get the plugin deactivation class.
-include_once DPT_PATH . 'activate/classes/class-deactivate.php';
-
+require_once DPT_PATH . 'activate/classes/class-deactivate.php';
 /**
  * Register the activation & deactivation hooks
  *
@@ -109,8 +121,7 @@ include_once DPT_PATH . 'activate/classes/class-deactivate.php';
 function activate_plugin() {
 
 	// Instantiate the Activate class.
-	$activate = new Activate\Activate;
-
+	$activate = new Activate\Activate();
 	// Update options.
 	$activate->options();
 }
@@ -124,7 +135,7 @@ function activate_plugin() {
  * @access public
  * @return void
  */
-function deactivate_plugin() {}
+function deactivate_plugin() { }
 
 /**
  * Disable plugin for PHP version
@@ -145,11 +156,9 @@ function deactivate_plugin() {}
  * @return void
  */
 if ( ! Classes\php()->version() ) {
-
 	// First add a notice to the plugin row.
-	$activate = new Activate\Activate;
+	$activate = new Activate\Activate();
 	$activate->get_row_notice();
-
 	// Stop here.
 	return;
 }
@@ -163,7 +172,3 @@ if ( ! Classes\php()->version() ) {
  * @since  1.0.0
  */
 require_once DPT_PATH . 'init.php';
-
-
-
-

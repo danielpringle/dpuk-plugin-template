@@ -1,0 +1,19 @@
+includes:
+    - vendor/szepeviktor/phpstan-wordpress/extension.neon
+
+parameters:
+    level: 6
+    paths:
+        - dpuk-plugin-template.php
+        - includes/
+    excludePaths:
+        - vendor/
+        - tests/
+        - node_modules/
+    bootstrapFiles:
+        - config-tools/constants.php
+
+    ignoreErrors:
+    -
+      message: '#PHPDoc tag @var does not specify variable name.#'
+      path: *

@@ -1,0 +1,44 @@
+<?xml version="1.0"?>
+<ruleset name="CS">
+	<description>Custom coding standards.</description>
+
+	<!-- <config name="installed_paths" value="vendor/wp-coding-standards/wpcs" /> -->
+
+	<!-- check the php version -->
+	<config name="testVersion" value="7.4-"/>
+	<!-- Set the coding standard -->
+    <!-- rules: https://github.com/squizlabs/PHP_CodeSniffer/blob/master/src/Standards/PSR12/ruleset.xml -->   
+	<rule ref="WordPress"/>
+	<!-- Show colours in the console -->
+	<arg name="colors"/>
+	<!-- Scan only php files -->
+	<arg name="extensions" value="php"/>
+	<!-- p flag = show progress. s flag = show sniff codes in reports -->		
+	<arg value="ps"/>
+	<!-- Check x number of files simultaneously -->
+	<arg name="parallel" value="10"/>
+	
+	<arg name="cache" value=".phpcs.cache"/>
+
+	<!-- Scan all files in the directory -->
+	<file>.</file>
+	
+	<!-- Exclude patterns -->
+	<exclude-pattern>.codeception/*</exclude-pattern>
+	<exclude-pattern>.github/*</exclude-pattern>
+	<exclude-pattern>vendor/*</exclude-pattern>
+	<exclude-pattern>node_modues/*</exclude-pattern>
+	<exclude-pattern>.idea/*</exclude-pattern>
+	<exclude-pattern>assets/*</exclude-pattern>
+
+	<!-- Don't worry about files that don't contain code -->
+	<rule ref="Internal.NoCodeFound">
+  		<severity>0</severity>
+ 	</rule>
+
+	<!-- Ignore mixed line-endings warnings -->
+	<rule ref="Internal.LineEndings.Mixed">
+  		<severity>0</severity>
+ 	</rule>
+
+</ruleset>
